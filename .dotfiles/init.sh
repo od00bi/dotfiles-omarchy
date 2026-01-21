@@ -1,9 +1,17 @@
 #!/usr/bin/bash
 
 dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/.git --work-tree=$HOME"
+repo="od00bi/dotfiles-omarchy.git"
 
 first_time_configuration () {
   $dotfiles config status.showUntrackedFiles no
+
+  echo -n "Change repo remote to ssh?(y): "
+  read remote
+  if [ "$remote" = "y" ]; then
+    $dotfiles remote rm origin
+    $dotfiles remote add origin git@github.com:$repo
+  fi
 
   /usr/bin/notify-send "intit.sh: Configure your preferred monitor setup and exit"
   # The monitor setup is different for every new host, but I always have to configure it once depending on scale, orientation etc
@@ -26,7 +34,7 @@ if [ -d ~/.dotfiles ]; then
 else
   echo "Running first-time setup"
   FIRST_TIME=true
-  /usr/bin/git clone --bare https://github.com/od00bi/dotfiles-omarchy.git ~/.dotfiles/.git
+  /usr/bin/git clone --bare https://github.com/$repo ~/.dotfiles/.git
 fi
 
 $dotfiles checkout -f
