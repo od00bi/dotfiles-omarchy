@@ -22,3 +22,12 @@
       ansible.builtin.file:
         name: "~/repos"
         state: "directory"
+    - name: Check current theme
+      ansible.builtin.command: ~/.local/share/omarchy/bin/omarchy-theme-current
+      register: theme
+    - name: Check if desired theme is current
+      ansible.builtin.set_fact:
+        theme_check: "{{ 'Ethereal' in theme.stdout }}"
+    - name: Set Omarchy theme
+      ansible.builtin.command: ~/.local/share/omarchy/bin/omarchy-theme-set ethereal
+      when: not theme_check
