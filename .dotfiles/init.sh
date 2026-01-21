@@ -26,7 +26,7 @@ if [ -d ~/.dotfiles ]; then
 else
   echo "Running first-time setup"
   FIRST_TIME=true
-  /usr/bin/git clone --bare https://github.com/od00bi/dotfiles-omarchy-test.git ~/.dotfiles/.git
+  /usr/bin/git clone --bare https://github.com/od00bi/dotfiles-omarchy.git ~/.dotfiles/.git
 fi
 
 $dotfiles checkout -f
