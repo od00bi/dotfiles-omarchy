@@ -9,3 +9,9 @@ source ~/.local/share/omarchy/default/bash/rc
 #
 # Make an alias for invoking commands you use constantly
 # alias p='python'
+set -o vi
+
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/.git --work-tree=$HOME'
+alias ll='ls -la'
+
+export SSH_AUTH_SOCK=~/.bitwarden-ssh-agent.sock
