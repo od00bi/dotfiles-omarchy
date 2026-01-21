@@ -1,0 +1,24 @@
+- name: General omarchy post-install tasks
+  hosts: localhost
+  tasks:
+    - name: Update & Upgrade
+      community.general.pacman:
+        update_cache: true
+        upgrade: true
+      become: true
+    - name: Install additional packages
+      community.general.pacman:
+        name:
+          - tmux
+          - firefox
+          - 7zip
+          - virtualbox
+          - virtualbox-guest-iso
+          - bitwarden
+          - nextcloud-client
+        state: present
+      become: true
+    - name: Create folder for git repos
+      ansible.builtin.file:
+        name: "~/repos"
+        state: "directory"
