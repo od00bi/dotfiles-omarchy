@@ -1,11 +1,17 @@
 - name: General omarchy post-install tasks
   hosts: localhost
   tasks:
-    - name: Update & Upgrade
-      community.general.pacman:
-        update_cache: true
-        upgrade: true
-      become: true
+    - name: Update omarchy if available
+      ansible.builtin.shell: |
+        if omarchy-update-available > /dev/null; then
+          omarchy-update
+          exit 254
+        else
+          exit 0
+        fi
+      register: result
+      failed_when: result.rc != 0 and result.rc != 254
+      changed_when: result.rc == 254
     - name: Install additional packages
       community.general.pacman:
         name:
