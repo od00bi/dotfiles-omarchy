@@ -16,7 +16,7 @@ The script will clone the repo if it does not exist, install ansible and run som
 
 ### Updating
 
-1. Pull the repo and checkout from main.
+1. Pull the repo and/or checkout from main.
 
 ```sh
 git pull
