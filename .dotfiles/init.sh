@@ -59,8 +59,10 @@ $dotfiles config status.showUntrackedFiles no
 if yesorno "Chagne repo remote to ssh?"; then
   $dotfiles remote rm origin
   $dotfiles remote add origin git@github.com:$repo
-  cd ~/repos/dotfiles-generic && git remote rm origin
-  cd ~/repos/dotfiles-generic && git remote add origin git@github.com:od00bi/dotfiles-generic
+  $dotfiles branch --set-upstream-to=origin/main main
+  cd ~/repos/dotfiles-generic && /usr/bin/git remote rm origin
+  cd ~/repos/dotfiles-generic && /usr/bin/git remote add origin git@github.com:od00bi/dotfiles-generic
+  cd ~/repos/dotfiles-generic && /usr/bin/git branch --set-upstream-to=origin/main main
 fi
 
 if yesorno "Configure monitors?"; then
