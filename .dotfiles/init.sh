@@ -25,25 +25,23 @@ yesorno () {
   fi
 }
 
+/usr/bin/mkdir -p repos
+
 if [ -d ~/.dotfiles ]; then
   prompt 1 "Found existing dotfiles folder"
-  if yesorno "Get the latest changes from remote?"; then
-    if ! $dotfiles pull; then
-      if yesorno "Git pull failed, checkout and try again?"; then
-        $dotfiles checkout -f
-        $dotfiles pull
-      else
-        prompt 2 "Exiting"
-        exit 1
-      fi
-    fi
-  fi
 else
-  prompt 1 "Cloning repo"
+  prompt 1 "Cloning dotfiles-omarchy repo"
   /usr/bin/git clone --bare https://github.com/$repo ~/.dotfiles/.git
 fi
 
-$dotfiles checkout -f
+if [ -d ~/repos/dotfiles-generic ]; then
+  prompt 1 "Found existing dotfiles-generic folder"
+else
+  prompt 1 "Cloning dotfiles-generic repo"
+  /usr/bin/git clone --bare https://github.com/$repo ~/.dotfiles/.git
+fi
+
+# $dotfiles checkout -f
 
 if ! command -v /usr/bin/ansible > /dev/null; then
   sudo /usr/bin/pacman -S ansible
@@ -56,6 +54,8 @@ $dotfiles config status.showUntrackedFiles no
 if yesorno "Chagne repo remote to ssh?"; then
   $dotfiles remote rm origin
   $dotfiles remote add origin git@github.com:$repo
+  cd ~/repos/dotfiles-generic && git remote rm origin
+  cd ~/repos/dotfiles-generic && git remote add origin git@github.com:od00bi/dotfiles-generic
 fi
 
 if yesorno "Configure monitors?"; then

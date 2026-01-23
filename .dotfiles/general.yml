@@ -1,23 +1,23 @@
 - name: General omarchy post-install tasks
   hosts: localhost
   tasks:
-    - name: Update & Upgrade
-      community.general.pacman:
-        update_cache: true
-        upgrade: true
-      become: true
-    - name: Install additional packages
-      community.general.pacman:
-        name:
-          - tmux
-          - firefox
-          - 7zip
-          - virtualbox
-          - virtualbox-guest-iso
-          - bitwarden
-          - nextcloud-client
-        state: present
-      become: true
+    # - name: Update & Upgrade
+    #   community.general.pacman:
+    #     update_cache: true
+    #     upgrade: true
+    #   become: true
+    # - name: Install additional packages
+    #   community.general.pacman:
+    #     name:
+    #       - tmux
+    #       - firefox
+    #       - 7zip
+    #       - virtualbox
+    #       - virtualbox-guest-iso
+    #       - bitwarden
+    #       - nextcloud-client
+    #     state: present
+    #   become: true
     - name: Create folder for git repos
       ansible.builtin.file:
         name: "~/repos"
@@ -33,3 +33,8 @@
       register: result
       failed_when: result.rc != 0 and result.rc != 254
       changed_when: result.rc == 254
+    - name: Clone dotfiles-generic to repos folder
+      ansible.builtin.git:
+        repo: https://github.com/od00bi/dotfiles-generic.git
+        dest: ~/repos/dotfiles-generic
+- import_playbook: "../repos/dotfiles-generic/playbooks/tmux.yml"
