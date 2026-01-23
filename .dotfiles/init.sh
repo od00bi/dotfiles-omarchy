@@ -17,7 +17,7 @@ prompt () {
 
 yesorno () {
   local prompt="$1"
-  read -p "init.sh: $prompt(y): " awnser
+  read -p "init.sh: [INPUT] $prompt(y): " awnser
   if [[ "$awnser" == "y" ]]; then
     return 0
   else
@@ -29,7 +29,7 @@ if [ -d ~/.dotfiles ]; then
   prompt 1 "Found existing dotfiles folder"
   if yesorno "Get the latest changes from remote?"; then
     if ! $dotfiles pull; then
-      if yesorno "Git pull failed, checkout and try again?(y)"; then
+      if yesorno "Git pull failed, checkout and try again?"; then
         $dotfiles checkout -f
         $dotfiles pull
       else
@@ -39,7 +39,7 @@ if [ -d ~/.dotfiles ]; then
     fi
   fi
 else
-  echo "init.sh: Cloning repo"
+  prompt 1 "Cloning repo"
   /usr/bin/git clone --bare https://github.com/$repo ~/.dotfiles/.git
 fi
 
