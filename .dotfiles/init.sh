@@ -28,6 +28,7 @@ yesorno () {
 if omarchy-update-available; then
   prompt 1 "Updating the system"
   omarchy-update
+fi
 
 /usr/bin/mkdir -p repos
 
