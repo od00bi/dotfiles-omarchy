@@ -25,6 +25,10 @@ yesorno () {
   fi
 }
 
+if omarchy-update-available; then
+  prompt 1 "Updating the system"
+  omarchy-update
+
 /usr/bin/mkdir -p repos
 
 if [ -d ~/.dotfiles ]; then
@@ -38,10 +42,10 @@ if [ -d ~/repos/dotfiles-generic ]; then
   prompt 1 "Found existing dotfiles-generic folder"
 else
   prompt 1 "Cloning dotfiles-generic repo"
-  /usr/bin/git clone --bare https://github.com/$repo ~/.dotfiles/.git
+  /usr/bin/git clone https://github.com/od00bi/dotfiles-generic ~/repos/dotfiles-generic
 fi
 
-# $dotfiles checkout -f
+$dotfiles checkout -f
 
 if ! command -v /usr/bin/ansible > /dev/null; then
   sudo /usr/bin/pacman -S ansible
