@@ -24,6 +24,23 @@
           - nextcloud-client
         state: present
       become: true
+    - name: Install packages from AUR
+      ansible.builtin.shell: |
+        packages=(
+            zen-browser-bin
+          )
+
+        rc=0
+        for p in "${packages[@]}"; do
+          if omarchy-pkg-missing $p; then
+            rc=254
+            omarchy-pkg-aur-add $p
+          fi
+        done
+        exit $rc
+      register: result
+      failed_when: result.rc != 0 and result.rc != 254
+      changed_when: result.rc == 254
     - name: Create folder for git repos
       ansible.builtin.file:
         name: "~/repos"
