@@ -76,3 +76,4 @@
         repo: https://github.com/od00bi/dotfiles-generic.git
         dest: ~/repos/dotfiles-generic
 - import_playbook: "../repos/dotfiles-generic/playbooks/tmux.yml"
+- import_playbook: "../repos/dotfiles-generic/playbooks/zsh.yml"
