@@ -1,5 +1,8 @@
 - name: General omarchy post-install tasks
   hosts: localhost
+  vars:
+    theme: "Retro 82"
+    background_path: "~/.local/share/omarchy/themes/retro-82/backgrounds/4-gateway.jpg"
   tasks:
     - name: Update omarchy if available
       ansible.builtin.shell: |
@@ -30,10 +33,11 @@
         state: "directory"
     - name: Check and change current theme
       ansible.builtin.shell: |
-        if [ $(omarchy-theme-current) = "Ethereal" ]; then
+        if [ $(omarchy-theme-current) = "{{theme}}" ]; then
           exit 0
         else
-          omarchy-theme-set "Ethereal"
+          omarchy theme set "{{theme}}"
+          omarchy theme bg set "{{background_path}}"
           exit 254
         fi
       register: result
